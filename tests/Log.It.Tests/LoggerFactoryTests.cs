@@ -1,10 +1,10 @@
-﻿using Log.It;
-using Should.Fluent;
+﻿using Should.Fluent;
+using Test.It.With.XUnit;
 using Xunit;
 
-namespace Test.It.Tests
+namespace Log.It.Tests
 {
-    public class When_creating_a_logger : XUnitSpecification
+    public class When_creating_a_logger : XUnit2Specification
     {
         private ILogger _createdLogger;
         

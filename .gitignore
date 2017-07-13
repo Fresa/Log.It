@@ -1,3 +1,5 @@
 tests/Log.It.Tests/bin/
 src/Log.It/obj/
 tests/Log.It.Tests/obj/
+!tools/**
+packages/

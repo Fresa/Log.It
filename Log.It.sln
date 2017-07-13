@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4AA9FA82
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Log.It", "src\Log.It\Log.It.csproj", "{F09B5ACB-273C-4537-954E-18F11850EBBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.It.Tests", "tests\Log.It.Tests\Test.It.Tests.csproj", "{B7ED557C-F0EC-4099-862A-026B10B98903}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Log.It.Tests", "tests\Log.It.Tests\Log.It.Tests.csproj", "{B7ED557C-F0EC-4099-862A-026B10B98903}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

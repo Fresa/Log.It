@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using Log.It;
 using Should.Fluent;
+using Test.It.With.XUnit;
 using Xunit;
 
-namespace Test.It.Tests
+namespace Log.It.Tests
 {
-    public class When_setting_a_context_in_a_child_thread : XUnitSpecification
+    public class When_setting_a_context_in_a_child_thread : XUnit2Specification
     {
         private string _secondItemInChildContext;
         private string _firstItemInParentContext;
