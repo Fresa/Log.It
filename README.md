@@ -1,6 +1,9 @@
 # Log.It
 Log.It is an abstract logging framework. It simplifies how you use logging frameworks in your everyday code. For a full example, please see the the `Log.It.Tests` project.
 
+## Download
+https://www.nuget.org/packages/Log.It/
+
 ## Getting Started
 You may use the `LogFactory` to create loggers either based on a type or a string which will be the logger name. The `LogFactory` uses an internal factory implementing `ILoggerFactory` which you implement by your own liking, maybe by using NLog or Log4net or anything else for that matter. The `ILoggerFactory` implementation is resolved by specifying the type name in a config file.
 
