@@ -1,6 +1,10 @@
 # Log.It
 Log.It is an abstract logging framework. It simplifies how you use logging frameworks in your everyday code. For a full example, please see the the `Log.It.Tests` project.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/0brskjpilxrbh4cc?svg=true)](https://ci.appveyor.com/project/Fresa/log-it)
+
+[![Build history](https://buildstats.info/appveyor/chart/Fresa/log-it)](https://ci.appveyor.com/project/Fresa/log-it/history)
+
 ## Download
 https://www.nuget.org/packages/Log.It/
 
