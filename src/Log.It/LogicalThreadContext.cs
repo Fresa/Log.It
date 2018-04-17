@@ -1,30 +1,31 @@
 using System;
-using System.Runtime.Remoting.Messaging;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Log.It
 {
     public class LogicalThreadContext : ILogContext
     {
-        private const string KeyPrefix = "Logging.LogicalThreadContext";
-
-        private static string GetCallContextKey(string key)
-        {
-            return $"{KeyPrefix}.{key}";
-        }
+        private static readonly ConcurrentDictionary<string, AsyncLocal<object>> CallContext = new ConcurrentDictionary<string, AsyncLocal<object>>();
 
         private static object GetCallContextValue(string key)
         {
-            return CallContext.LogicalGetData(GetCallContextKey(key));
+            if (CallContext.TryGetValue(key, out var value) == false)
+            {
+                return null;
+            }
+
+            return value.Value;
         }
 
         private static void SetCallContextValue(string key, object value)
         {
-            CallContext.LogicalSetData(GetCallContextKey(key), value);
+            CallContext.GetOrAdd(key, _ => new AsyncLocal<object>()).Value = value;
         }
 
         private static void RemoveCallContextValue(string key)
         {
-            CallContext.FreeNamedDataSlot(GetCallContextKey(key));
+            CallContext.TryRemove(key, out var _);
         }
 
         /// <summary>
