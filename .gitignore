@@ -5,3 +5,5 @@ tests/Log.It.Tests/obj/
 packages/
 .vs/
 Log.It.v3.ncrunchsolution
+src/Log.It/bin/
+src/Log.It/Properties/PublishProfiles/

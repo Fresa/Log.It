@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net461</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <Authors>Fredrik Arvidsson</Authors>
         <Company />
         <Copyright>Copyright ©  2017</Copyright>
         <Description>Abstract logging framework for your favorite logger</Description>
     </PropertyGroup>
     <ItemGroup>
-      <Reference Include="System.Configuration" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
     </ItemGroup>
 </Project>
