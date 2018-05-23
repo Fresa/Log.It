@@ -15,6 +15,7 @@ namespace Log.It.Tests
         private LogicalThreadContext _context;
         private Serializable _complexSerializableItemInChildContext;
         private Serializable _complexSerializableItemInParentContext;
+        private bool _containsFirstItemInChildContext;
 
         protected override void Given()
         {
@@ -30,6 +31,7 @@ namespace Log.It.Tests
             Task.Run(() =>
             {
                 _firstItemInChildContext = _context.Get<string>("firstItem");
+                _containsFirstItemInChildContext = _context.Contains("firstItem");
                 _context.Set("firstItem", "bar");
                 _overwrittenfirstItemInChildContext = _context.Get<string>("firstItem");
                 _secondItemInChildContext = _context.Get<string>("secondItem");
@@ -45,6 +47,12 @@ namespace Log.It.Tests
         public void It_should_have_first_item_value_in_child_thread()
         {
             _firstItemInChildContext.Should().Equal("foo");
+        }
+
+        [Fact]
+        public void It_should_contain_first_item_value_in_child_thread()
+        {
+            _containsFirstItemInChildContext.Should().Be.True();
         }
 
         [Fact]
@@ -83,6 +91,11 @@ namespace Log.It.Tests
             _complexSerializableItemInParentContext.Foo.Should().Equal("bar");
         }
 
+        [Fact]
+        public void It_should_not_contain_a_random_value()
+        {
+            _context.Contains("IDontExist").Should().Be.False();
+        }
 
         private class Serializable
         {

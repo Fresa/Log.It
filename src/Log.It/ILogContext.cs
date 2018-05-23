@@ -8,5 +8,6 @@ namespace Log.It
         TValue Get<TValue>(string key);
         string Get(string key, IFormatProvider formatProvider);
         void Remove(string key);
+        bool Contains(string key);
     }
 }

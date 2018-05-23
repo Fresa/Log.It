@@ -8,14 +8,14 @@ namespace Log.It
     {
         private static readonly ConcurrentDictionary<string, AsyncLocal<object>> CallContext = new ConcurrentDictionary<string, AsyncLocal<object>>();
 
-        private static object GetCallContextValue(string key)
+        private static T GetCallContextValue<T>(string key)
         {
             if (CallContext.TryGetValue(key, out var value) == false)
             {
-                return null;
+                return default(T);
             }
 
-            return value.Value;
+            return (T) value.Value;
         }
 
         private static void SetCallContextValue(string key, object value)
@@ -25,7 +25,7 @@ namespace Log.It
 
         private static void RemoveCallContextValue(string key)
         {
-            CallContext.TryRemove(key, out var _);
+            CallContext.TryRemove(key, out _);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Log.It
         /// <returns>Formatted value</returns>
         public string Get(string key, IFormatProvider formatProvider)
         {
-            return Convert.ToString(GetCallContextValue(key), formatProvider);
+            return Convert.ToString(GetCallContextValue<object>(key), formatProvider);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Log.It
         /// <returns>Value</returns>
         public T Get<T>(string key)
         {
-            return (T)GetCallContextValue(key);
+            return GetCallContextValue<T>(key);
         }
 
         /// <summary>
@@ -68,6 +68,16 @@ namespace Log.It
         public void Remove(string key)
         {
             RemoveCallContextValue(key);
+        }
+
+        /// <summary>
+        /// Check if a value is present in the logical thread context
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns>True if value is present otherwise false</returns>
+        public bool Contains(string key)
+        {
+            return CallContext.ContainsKey(key);
         }
     }
 }
