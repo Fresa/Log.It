@@ -37,5 +37,10 @@ namespace Log.It
         {
             return Factory.Create(logger);
         }
+
+        public static ILogger Create()
+        {
+            return Factory.Create();
+        }
     }
 }

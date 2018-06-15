@@ -4,5 +4,6 @@
     {
         ILogger Create(string logger);
         ILogger Create<T>();
+        ILogger Create();
     }
 }
