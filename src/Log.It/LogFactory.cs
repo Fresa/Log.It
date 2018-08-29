@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Log.It
@@ -40,7 +41,8 @@ namespace Log.It
 
         public static ILogger Create()
         {
-            return Factory.Create();
+            var stackTrace = new StackFrame(1, false);
+            return Create(stackTrace.GetMethod().DeclaringType.GetPrettyName());
         }
     }
 }

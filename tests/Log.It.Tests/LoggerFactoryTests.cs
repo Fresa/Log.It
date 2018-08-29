@@ -36,5 +36,11 @@ namespace Given_a_app_configured_logger_factory
         {
             _createdLogger.Should().Be.OfType<FakeLogger>();
         }
+
+        [Fact]
+        public void It_should_create_a_logger_with_the_name_of_the_creating_class()
+        {
+            ((FakeLogger) _createdLogger).Name.Should().Equal("Given_a_app_configured_logger_factory.When_creating_a_logger");
+        }
     }
 }

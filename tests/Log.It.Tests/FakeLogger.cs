@@ -4,6 +4,13 @@ namespace Log.It.Tests
 {
     public class FakeLogger : ILogger
     {
+        public string Name { get; }
+
+        public FakeLogger(string name)
+        {
+            Name = name;
+        }
+
         public void Fatal(Exception ex, IFormatProvider formatProvider, string template, params object[] args)
         {
             throw new NotImplementedException();
