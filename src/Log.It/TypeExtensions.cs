@@ -7,6 +7,11 @@ namespace Log.It
     {
         public static string GetPrettyName(this Type type)
         {
+            if (type == null)
+            {
+                return string.Empty;
+            }
+
             var name = type.FullName;
 
             if (name == null)
