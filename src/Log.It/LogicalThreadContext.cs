@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace Log.It
@@ -48,6 +50,15 @@ namespace Log.It
         public T Get<T>(string key)
         {
             return GetCallContextValue<T>(key);
+        }
+
+        /// <summary>
+        /// Gets all values from the logical thread context
+        /// </summary>
+        /// <returns>All context key/values</returns>
+        public static IDictionary<string, object> GetAll()
+        {
+            return CallContext.ToDictionary(context => context.Key, context => context.Value.Value);
         }
 
         /// <summary>
