@@ -1,32 +1,22 @@
 ﻿using System;
-using System.Configuration;
-using System.Diagnostics;
-using System.Linq;
 
 namespace Log.It
 {
     public static class LogFactory
     {
-        private static readonly ILogFactory Factory;
+        private static ILogFactory _factory;
 
-        private const string LoggingSection = "Logging";
+        public static bool HasFactory 
+            => _factory != null;
 
-        static LogFactory()
+        public static void Initialize(ILogFactory logFactory)
         {
-            var loggingSection = ConfigurationManager.GetSection(LoggingSection) as LoggingSection;
-            if (loggingSection == null)
+            if (HasFactory)
             {
-                throw new ConfigurationErrorsException(
-                    $"Could not find {LoggingSection} configuration in configuration file.");
+                throw new InvalidOperationException("The log factory has already been initialized");
             }
 
-            if (loggingSection.Factory.GetInterfaces().Any(type => type == typeof(ILoggerFactory)) == false)
-            {
-                throw new ConfigurationErrorsException(
-                    $"{loggingSection.Factory.AssemblyQualifiedName} must implement {typeof(ILoggerFactory).FullName}.");
-            }
-
-            Factory = ((ILoggerFactory)Activator.CreateInstance(loggingSection.Factory)).Create();
+            _factory = logFactory;
         }
 
         /// <summary>
@@ -36,7 +26,12 @@ namespace Log.It
         /// <returns>Logger</returns>
         public static ILogger Create<T>()
         {
-            return Factory.Create<T>();
+            if (HasFactory == false)
+            {
+                throw new InvalidOperationException($"Initialize the log factory before using it by calling {nameof(LogFactory)}.{nameof(Initialize)}({nameof(ILogFactory)} logFactory)");
+            }
+
+            return _factory.Create<T>();
         }
 
         /// <summary>
@@ -46,29 +41,12 @@ namespace Log.It
         /// <returns>Logger</returns>
         public static ILogger Create(string logger)
         {
-            return Factory.Create(logger);
-        }
-
-        /// <summary>
-        /// Creates a logger based on calling method's declaring type.
-        /// <remarks>
-        /// - Will not be able to resolve type arguments, resulting in empty &lt;&gt;
-        /// - JIT optimization might cause the declaring type of the calling method to be null.
-        /// In this case the logger name will be based on the calling method's name.
-        /// </remarks>
-        /// </summary>
-        /// <returns>Logger</returns>
-        public static ILogger Create()
-        {
-            var method = new StackFrame(1, false).GetMethod();
-
-            var name = method.DeclaringType.GetPrettyName();
-            if (string.IsNullOrEmpty(name))
+            if (HasFactory == false)
             {
-                name = method.Name;
+                throw new InvalidOperationException($"Initialize the log factory before using it by calling {nameof(LogFactory)}.{nameof(Initialize)}({nameof(ILogFactory)} logFactory)");
             }
 
-            return Create(name);
+            return _factory.Create(logger);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Log.It
 {
@@ -7,25 +8,20 @@ namespace Log.It
     {
         public static string GetPrettyName(this Type type)
         {
-            if (type == null)
-            {
-                return string.Empty;
-            }
-
-            var name = type.FullName;
+            var name = type?.FullName;
 
             if (name == null)
             {
                 return string.Empty;
             }
 
-            if (type.IsGenericType == false)
+            if (type.GetTypeInfo().IsGenericType == false)
             {
                 return name;
             }
             
             name = name.Substring(0, name.IndexOf('`'));
-            name += $"<{type.GetGenericArguments().Select(GetPrettyName).Join(", ")}>";
+            name += $"<{type.GenericTypeArguments.Select(GetPrettyName).Join(", ")}>";
 
             return name;
         }

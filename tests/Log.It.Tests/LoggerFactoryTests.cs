@@ -12,7 +12,8 @@ namespace Given_a_app_configured_logger_factory
         
         protected override void When()
         {
-            _createdLogger = LogFactory.Create<When_creating_a_logger>();
+            FakeLoggerFactory.InitializeOnce();
+            _createdLogger = LogFactory.Create<FakeLoggerFactory>();
         }
         
         [Fact]
@@ -22,13 +23,14 @@ namespace Given_a_app_configured_logger_factory
         }
     }
 
-    public class When_creating_a_logger : XUnit2Specification
+    public class When_creating_a_logger_specifying_a_name : XUnit2Specification
     {
         private ILogger _createdLogger;
 
         protected override void When()
         {
-            _createdLogger = LogFactory.Create();
+            FakeLoggerFactory.InitializeOnce();
+            _createdLogger = LogFactory.Create("Given_a_app_configured_logger_factory.When_creating_a_logger");
         }
 
         [Fact]
