@@ -4,6 +4,8 @@ namespace Log.It.Tests
 {
     public class FakeLoggerFactory
     {
+        private static readonly object InitializationLock = new object();
+
         public ILogFactory Create()
         {
             var factory = A.Fake<ILogFactory>();
@@ -16,12 +18,15 @@ namespace Log.It.Tests
 
         internal static void InitializeOnce()
         {
-            if (LogFactory.HasFactory)
+            lock (InitializationLock)
             {
-                return;
-            }
+                if (LogFactory.HasFactory)
+                {
+                    return;
+                }
 
-            LogFactory.Initialize(new FakeLoggerFactory().Create());
+                LogFactory.Initialize(new FakeLoggerFactory().Create());
+            }
         }
     }
 }
