@@ -12,6 +12,8 @@ namespace Log.It.Tests
         private string _secondItemInParentContext;
         private string _firstItemInChildContext;
         private string _overwrittenfirstItemInChildContext;
+        private string _thirdItemInParentContext;
+        private string _thirdItemInChildContext;
         private LogicalThreadContext _context;
         private Serializable _complexSerializableItemInChildContext;
         private Serializable _complexSerializableItemInParentContext;
@@ -23,6 +25,7 @@ namespace Log.It.Tests
 
             _context.Set("firstItem", "foo");
             _context.Set("secondItem", "fee");
+            _context.Set("thirdItem", "foe");
             _context.Set("complexSerializableItem", new Serializable { Foo = "bar" });
         }
 
@@ -35,11 +38,16 @@ namespace Log.It.Tests
                 _context.Set("firstItem", "bar");
                 _overwrittenfirstItemInChildContext = _context.Get<string>("firstItem");
                 _secondItemInChildContext = _context.Get<string>("secondItem");
+
+                _context.Set("thirdItem", "feo2");
+                _context.Remove("thirdItem");
+                _thirdItemInChildContext = _context.Get<string>("thirdItem");
                 _complexSerializableItemInChildContext = _context.Get<Serializable>("complexSerializableItem");
             }).Wait();
 
             _firstItemInParentContext = _context.Get<string>("firstItem");
             _secondItemInParentContext = _context.Get<string>("secondItem");
+            _thirdItemInParentContext = _context.Get<string>("thirdItem");
             _complexSerializableItemInParentContext = _context.Get<Serializable>("complexSerializableItem");
         }
 
@@ -77,6 +85,18 @@ namespace Log.It.Tests
         public void It_should_have_original_second_item_value_in_parent_thread()
         {
             _secondItemInParentContext.Should().Equal("fee");
+        }
+
+        [Fact]
+        public void It_should_have_removed_third_item_value_in_child_thread()
+        {
+            _thirdItemInChildContext.Should().Be.Null();
+        }
+
+        [Fact]
+        public void It_should_have_original_third_item_value_in_parent_thread()
+        {
+            _thirdItemInParentContext.Should().Equal("foe");
         }
 
         [Fact]
