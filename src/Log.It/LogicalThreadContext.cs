@@ -27,7 +27,8 @@ namespace Log.It
 
         private static void RemoveCallContextValue(string key)
         {
-            CallContext.TryRemove(key, out _);
+            if (CallContext.TryGetValue(key, out var asyncLocal))
+                asyncLocal.Value = null;
         }
 
         /// <summary>
